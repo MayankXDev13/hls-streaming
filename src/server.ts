@@ -33,7 +33,7 @@ app.post("/api/get-presigned-url", async (req, res) => {
     const uniqueKey = `videos/${uuidv4()}-${fileName}`; // unique path in S3
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: process.env.S3_BUCKET_NAME,
       Key: uniqueKey,
       ContentType: fileType,
     });
