@@ -40,30 +40,3 @@ export const getPresignedUrl: RequestHandler = asyncHandler(
 );
 
 
-export const confirmUpload: RequestHandler = asyncHandler(
-  async (req: Request, res: Response): Promise<void> => {
-    const { fileKey, fileUrl, fileName, fileType, fileSize, userId } = req.body;
-
-    console.log(`fileKey: ${fileKey}`);
-    console.log(`fileUrl: ${fileUrl}`);
-    console.log(`fileName: ${fileName}`);
-    console.log(`fileType: ${fileType}`);
-    console.log(`fileSize: ${fileSize}`);
-    console.log(`userId: ${userId}`);
-
-    res.json(
-      new ApiResponse(
-        200,
-        {
-          fileKey,
-          fileUrl,
-          fileName,
-          fileType,
-          fileSize,
-          userId,
-        },
-        "File uploaded successfully",
-      ),
-    );
-  },
-);
