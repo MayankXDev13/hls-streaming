@@ -42,6 +42,19 @@ app.post("/api/get-presigned-url", async (req, res) => {
   }
 });
 
+// save video info to your DB after upload
+app.post("/api/confirm-upload", async (req, res) => {
+  const { fileKey, fileUrl, fileName, fileType, fileSize, userId } = req.body;
+
+  console.log(`fileKey: ${fileKey}`);
+  console.log(`fileUrl: ${fileUrl}`);
+  console.log(`fileName: ${fileName}`);
+  console.log(`fileType: ${fileType}`);
+  console.log(`fileSize: ${fileSize}`);
+  console.log(`userId: ${userId}`);
+
+  res.json({ success: true });
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
