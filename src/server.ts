@@ -15,9 +15,19 @@ app.use(
 
 app.use(express.json({ limit: "50kb" }));
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log(req.body);
+  next();
+});
+
 // Generate presigned URL
 app.post("/api/get-presigned-url", async (req, res) => {
   const { fileName, fileType } = req.body;
+
+  if (!fileName || !fileType) {
+    return res.status(400).json({ error: "Missing file name or file type" });
+  }
 
   try {
     const uniqueKey = `videos/${uuidv4()}-${fileName}`; // unique path in S3
