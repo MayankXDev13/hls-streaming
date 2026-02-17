@@ -1,0 +1,48 @@
+import express from "express";
+import cors from "cors";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { s3Client } from "./lib/s3.js";
+
+const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
+
+app.use(express.json({ limit: "50kb" }));
+
+// Generate presigned URL
+app.post("/api/get-presigned-url", async (req, res) => {
+  const { fileName, fileType } = req.body;
+
+  try {
+    const uniqueKey = `videos/${uuidv4()}-${fileName}`; // unique path in S3
+
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: uniqueKey,
+      ContentType: fileType,
+    });
+
+    const presignedUrl = await getSignedUrl(s3Client, command, {
+      expiresIn: 3600, // 1 hours
+    });
+
+    res.json({
+      presignedUrl,
+      fileKey: uniqueKey,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to generate presigned URL" });
+  }
+});
+
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
