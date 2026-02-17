@@ -39,4 +39,20 @@ export const getPresignedUrl: RequestHandler = asyncHandler(
   },
 );
 
+export const jobFailed: RequestHandler = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { videoId, s3Key, reason, exitCode } = req.body;
 
+    if (!videoId) {
+      res.status(400).json(new ApiResponse(400, {}, "Video ID is required"));
+    }
+    console.error(
+      `[job-failed] videoId=${videoId} exitCode=${exitCode} reason=${reason}`,
+    );
+
+    // TODO: update your DB record to status="failed"
+    // await db.videos.update({ where: { videoId }, data: { status: "failed", reason } });
+
+    res.status(200).json(new ApiResponse(200, {}, "Job failed successfully"));
+  },
+);

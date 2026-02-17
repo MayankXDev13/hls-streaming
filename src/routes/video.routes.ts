@@ -5,5 +5,5 @@ import {
 
 export const videoRouter: Router = Router();
 
-videoRouter.post("/get-presigned-url", getPresignedUrl);
+videoRouter.post("/upload/presign", getPresignedUrl);
 
