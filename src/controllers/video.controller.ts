@@ -14,7 +14,7 @@ export const getPresignedUrl: RequestHandler = asyncHandler(
       res.status(400).json({ error: "Missing file name or file type" });
     }
 
-    const uniqueKey = `videos/${uuidv4()}`; // unique path in S3 --> /videos/uuid.mp4
+    const uniqueKey = `videos/${uuidv4()}${fileName}`; // unique path in S3 --> /videos/uuid-filename.mp4
     // uniqueKey will be used to identify the video in S3
 
     const command = new PutObjectCommand({
