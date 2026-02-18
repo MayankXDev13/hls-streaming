@@ -16,7 +16,7 @@ export const getPresignedUrl: RequestHandler = asyncHandler(
 
 
    
-    const uniqueKey = `videos/${uuidv4()}${fileName}`; // unique path in S3 --> /videos/uuidfilename.mp4
+    const uniqueKey = `videos/${uuidv4()}-${fileName}`; // unique path in S3 --> /videos/uuid-filename.mp4
     // uniqueKey will be used to identify the video in S3
 
     const command = new PutObjectCommand({
